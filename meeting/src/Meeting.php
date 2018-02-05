@@ -10,41 +10,21 @@ final class Meeting {
     private $title;
     private $description;
     private $code;
-    private $startDate;
-    private $endDate;
-    private $startTime;
-    private $endTime;
+    private $duration;
     private $isPublished;
     private $subTitle;
     private $program;
 
     public function __construct(UuidInterface $meetingId, string $title, string $description,
-        string $code, string $startDate, string $endDate, string $startTime, string $endTime,
-        bool $isPublished, string $subTitle, array $program) {
+        string $code, MeetingDuration $duration, bool $isPublished, string $subTitle,
+        array $program) {
         $this->meetingId = $meetingId;
         $this->title = $title;
         $this->description = $description;
         $this->code = $code;
-        $this->startDate = $startDate;
-        $this->endDate = $endDate;
-        $this->startTime = $startTime;
-        $this->endTime = $endTime;
+        $this->duration = $duration;
         $this->isPublished = $isPublished;
         $this->subTitle = $subTitle;
         $this->program = $program;
-        $this->meetingCannotEndBeforeStart();
     }
-
-    private function meetingCannotEndBeforeStart(): void {
-        if ($this->startDate < $this->endDate) {
-            return;
-        }
-        if ($this->startDate > $this->endDate) {
-            throw InvalidMeeting::becauseMeetingEndsBeforeStarting();
-        }
-        if ($this->startTime > $this->endTime) {
-            throw InvalidMeeting::becauseMeetingEndsBeforeStarting();
-        }
-    }
-
 }
