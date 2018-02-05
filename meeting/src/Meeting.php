@@ -32,5 +32,19 @@ final class Meeting {
         $this->isPublished = $isPublished;
         $this->subTitle = $subTitle;
         $this->program = $program;
+        $this->meetingCannotEndBeforeStart();
     }
+
+    private function meetingCannotEndBeforeStart(): void {
+        if ($this->startDate < $this->endDate) {
+            return;
+        }
+        if ($this->startDate > $this->endDate) {
+            throw InvalidMeeting::becauseMeetingEndsBeforeStarting();
+        }
+        if ($this->startTime > $this->endTime) {
+            throw InvalidMeeting::becauseMeetingEndsBeforeStarting();
+        }
+    }
+
 }
