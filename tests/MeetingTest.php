@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Pelshoff\Meeting\test;
 
+use DateTimeImmutable;
 use Pelshoff\Meeting\Meeting;
 use Pelshoff\Meeting\MeetingDuration;
 use PHPUnit\Framework\TestCase;
@@ -12,7 +13,10 @@ final class MeetingTest extends TestCase {
     public function testThatValidMeetingsCanBeInstantiated() {
         $this->assertInstanceOf(Meeting::class,
             new Meeting(Uuid::uuid4(), 'This is a test', 'This is a test description', 'M01',
-                new MeetingDuration('2016-09-29', '2016-09-29', '09:00', '18:00'), false,
+                new MeetingDuration(
+                    new DateTimeImmutable('2016-09-29 09:00'),
+                    new DateTimeImmutable('2016-09-29 18:00')
+                ), false,
                 'This is a test sub title',
                 [
                     [
