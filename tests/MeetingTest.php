@@ -7,6 +7,8 @@ use DateTimeImmutable;
 use Pelshoff\Meeting\Meeting;
 use Pelshoff\Meeting\MeetingDuration;
 use Pelshoff\Meeting\Program;
+use Pelshoff\Meeting\Slot;
+use Pelshoff\Meeting\SlotDuration;
 use PHPUnit\Framework\TestCase;
 use Ramsey\Uuid\Uuid;
 
@@ -20,27 +22,30 @@ final class MeetingTest extends TestCase {
                 ), false,
                 'This is a test sub title',
                 new Program([
-                    [
-                        'date' => '2016-09-29',
-                        'startTime' => '09:00',
-                        'endTime' => '09:30',
-                        'title' => 'Opening',
-                        'room' => 'White room',
-                    ],
-                    [
-                        'date' => '2016-09-29',
-                        'startTime' => '09:30',
-                        'endTime' => '10:30',
-                        'title' => 'Intro OOP',
-                        'room' => 'Black room',
-                    ],
-                    [
-                        'date' => '2016-09-29',
-                        'startTime' => '09:30',
-                        'endTime' => '10:00',
-                        'title' => 'Intro FP',
-                        'room' => 'White room',
-                    ],
+                    new Slot(
+                        new SlotDuration(
+                            new DateTimeImmutable('2016-09-29 09:00'),
+                            new DateTimeImmutable('2016-09-29 09:30')
+                        ),
+                        'Opening',
+                        'White room'
+                    ),
+                    new Slot(
+                        new SlotDuration(
+                            new DateTimeImmutable('2016-09-29 09:30'),
+                            new DateTimeImmutable('2016-09-29 10:30')
+                        ),
+                        'Intro OOP',
+                        'Black room'
+                    ),
+                    new Slot(
+                        new SlotDuration(
+                            new DateTimeImmutable('2016-09-29 09:30'),
+                            new DateTimeImmutable('2016-09-29 10:00')
+                        ),
+                        'Intro FP',
+                        'White room'
+                    ),
                 ])
             ));
     }

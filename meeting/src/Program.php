@@ -6,27 +6,18 @@ namespace Pelshoff\Meeting;
 final class Program {
     private $program;
 
+    /** @param Slot[] $program */
     public function __construct(array $program) {
         $this->program = $program;
         $this->programSlotsCannotOccurInTheSameRoomAtTheSameTime();
     }
 
     private function programSlotsCannotOccurInTheSameRoomAtTheSameTime(): void {
-        foreach ($this->program as $index => $slot) {
-            foreach (array_slice($this->program, $index + 1) as $comparison) {
-                if ($slot['room'] !== $comparison['room']) {
-                    continue;
+        foreach ($this->program as $index => $thisSlot) {
+            foreach (array_slice($this->program, $index + 1) as $thatSlot) {
+                if ($thisSlot->overlapsWith($thatSlot)) {
+                    throw InvalidProgram::becauseProgramSlotsOverlap();
                 }
-                if ($slot['date'] !== $comparison['date']) {
-                    continue;
-                }
-                if ($slot['startTime'] >= $comparison['endTime']) {
-                    continue;
-                }
-                if ($slot['endTime'] <= $comparison['startTime']) {
-                    continue;
-                }
-                throw InvalidProgram::becauseProgramSlotsOverlap();
             }
         }
     }
